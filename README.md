@@ -73,6 +73,14 @@ class ApiConfig {
 }
 ```
 -->   
+## output 
+<br>
+## mobile 
+<img src="https://github.com/jayanth119/AtoZCinemas/blob/main/photo/mobile.jpeg"/>
+#web 
+<img src="https://github.com/jayanth119/AtoZCinemas/blob/main/photo/web.png"/>
+## window 
+<img src="https://github.com/jayanth119/AtoZCinemas/blob/main/photo/window.png"/>
 ## Contributing
 
 If you'd like to contribute to the development of the Cinemas and Booking Ticket Flutter App, please follow these guidelines:
