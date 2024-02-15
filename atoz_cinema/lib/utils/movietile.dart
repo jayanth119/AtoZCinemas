@@ -16,7 +16,7 @@ class MovieTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(
+          Image.network(
             image,
             fit: BoxFit.cover,
           ),

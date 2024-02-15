@@ -1,7 +1,11 @@
-import 'package:atoz_cinema/ad_banner.dart';
-import 'package:atoz_cinema/carousel_slider.dart';
-import 'package:atoz_cinema/movietile.dart';
+// ignore_for_file: non_constant_identifier_names, avoid_print
+
+import 'package:atoz_cinema/utils/ad_banner.dart';
+import 'package:atoz_cinema/utils/carousel_slider.dart';
+import 'package:atoz_cinema/utils/movietile.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -11,46 +15,33 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final movie = [
-    "assets/av1.jpg",
-    "assets/av2.jpg",
-    "assets/av3.jpg",
-    "assets/av1.jpg",
-    "assets/av2.jpg",
-    "assets/av3.jpg",
-    "assets/av1.jpg",
-    "assets/av2.jpg",
-    "assets/av3.jpg",
-    "assets/av1.jpg",
-    "assets/av2.jpg",
-    "assets/av3.jpg",
-    "assets/av1.jpg",
-    "assets/av2.jpg",
-    "assets/av3.jpg",
-    "assets/av1.jpg",
-    "assets/av2.jpg",
-    "assets/av3.jpg"
-  ];
-  final name = [
-    "avenger",
-    "deadpool ",
-    "ironman",
-    "avenger",
-    "deadpool ",
-    "ironman",
-    "avenger",
-    "deadpool ",
-    "ironman",
-    "avenger",
-    "deadpool ",
-    "ironman",
-    "avenger",
-    "deadpool ",
-    "ironman",
-    "avenger",
-    "deadpool ",
-    "ironman"
-  ];
+  List<Map<String, dynamic>> movieData = [];
+
+  Future<void> ToGet() async {
+    var url = Uri.http('127.0.0.1:8000', '/movie');
+
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      var jsonResponse = convert.jsonDecode(response.body) as List<dynamic>;
+
+      setState(() {
+        movieData = List<Map<String, dynamic>>.from(jsonResponse);
+      });
+
+      var itemCount = movieData.length;
+      print('Number of items in the list: $itemCount.');
+      print(movieData[0]["cast"]);
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
+  @override
+  void initState() {
+    ToGet();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +52,7 @@ class _HomeState extends State<Home> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: ToGet,
             icon: const Icon(Icons.search),
           ),
           IconButton(
@@ -105,19 +96,17 @@ class _HomeState extends State<Home> {
             height: 8,
           ),
           const AddBanner(),
-          // SizedBox(
-          //   width: double.infinity,
-          //   height: 8,
-          // ),
           Expanded(
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.all(10),
-              itemCount: movie.length,
+              itemCount: movieData.length,
               itemBuilder: (BuildContext context, int index) {
                 return MovieTile(
-                  image: movie[index],
-                  title: name[index],
+                  image: movieData[index]
+                      ["thumbnail"], // Update with your actual field name
+                  title: movieData[index]
+                      ["title"], // Update with your actual field name
                 );
               },
             ),
