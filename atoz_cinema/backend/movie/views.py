@@ -4,7 +4,7 @@ import json
 
 @api_view(["GET"])
 def movie(request):
-    json_file_path = 'assets/movies-2020s.json'
+    json_file_path = 'assets/movies.json'
 
     try:
         with open(json_file_path , "r", encoding="utf-8") as file:
