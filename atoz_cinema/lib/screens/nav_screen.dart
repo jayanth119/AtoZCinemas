@@ -1,7 +1,8 @@
-import 'package:atoz_cinema/screens/searchpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:atoz_cinema/cubits/cubits.dart';
+import 'package:atoz_cinema/screens/newspage.dart';
+
 import 'package:atoz_cinema/screens/screens.dart';
 import 'package:atoz_cinema/widgets/widgets.dart';
 
@@ -12,11 +13,11 @@ class NavScreen extends StatefulWidget {
 
 class _NavScreenState extends State<NavScreen> {
   final List<Widget> _screens = [
-    HomeScreen(key: PageStorageKey('homeScreen')),
-    SearchPage(),
-    Scaffold(),
-    Scaffold(),
-    Scaffold(),
+    const HomeScreen(key: PageStorageKey('homeScreen')),
+    const Scaffold(),
+    const NewsScreem(),
+    const Scaffold(),
+    const Scaffold(),
   ];
 
   final Map<String, IconData> _icons = const {

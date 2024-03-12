@@ -9,7 +9,7 @@ import 'package:atoz_cinema/widgets/time_selector.dart';
 class PayingScreen extends StatefulWidget {
   final String movieName;
 
-  const PayingScreen({required this.movieName});
+  PayingScreen({required this.movieName});
 
   @override
   _PayingScreenState createState() => _PayingScreenState();
@@ -25,7 +25,7 @@ class _PayingScreenState extends State<PayingScreen> {
         child: Column(
           children: [
             //app bar
-            CustomAppBar("salar"),
+            CustomAppBar1("salar"),
 
             //date selector
             DateSelector(),

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatefulWidget {
+class CustomAppBar1 extends StatefulWidget {
   final String movieName;
 
-  CustomAppBar(this.movieName);
+  CustomAppBar1(this.movieName);
 
   @override
-  _CustomAppBarState createState() => _CustomAppBarState();
+  _CustomAppBar1State createState() => _CustomAppBar1State();
 }
 
-class _CustomAppBarState extends State<CustomAppBar> {
+class _CustomAppBar1State extends State<CustomAppBar1> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

@@ -1,8 +1,9 @@
-// import 'package:atoz_cinema/screens/booking_screen.dart';
+// import 'package:movie/screens/booking_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:atoz_cinema/models/models.dart';
 import 'package:atoz_cinema/screens/booking_screen.dart';
+import 'package:atoz_cinema/screens/movie.dart';
 
 class ContentList extends StatelessWidget {
   final String title;
@@ -38,7 +39,14 @@ class ContentList extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MovieScreen(),
+                      ),
+                    );
+                  },
                   child: const Text(
                     "See All > ",
                     style: TextStyle(
@@ -69,7 +77,6 @@ class ContentList extends StatelessWidget {
                         builder: (context) => const BookingScreen(
                           image_location: 'assets/images/stranger_things.jpg',
                           image_caption: 'stranger_things',
-                          mode: 1, //1 for ticket  0 for movie details
                         ),
                       ),
                     );

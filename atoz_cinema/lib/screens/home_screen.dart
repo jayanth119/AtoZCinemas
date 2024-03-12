@@ -62,14 +62,14 @@ class _HomeScreenState extends State<HomeScreen> {
           // ),
           SliverToBoxAdapter(
             child: ContentList(
-              key: PageStorageKey('Rec atoz_cinemas'),
-              title: 'Recommended atoz_cinemas ',
-              contentList: myList, // this cinemas can be booked
+              key: PageStorageKey('Rec Movies'),
+              title: 'Recommended Movies ',
+              contentList: myList, // this cinemas can be book
             ),
           ),
           SliverToBoxAdapter(
             child: ContentList(
-              key: PageStorageKey('originals'), //top movies
+              key: PageStorageKey('originals'),
               title: 'Top 2024',
               contentList: originals,
               isOriginals: true,
@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.only(bottom: 20.0),
             sliver: SliverToBoxAdapter(
               child: ContentList(
-                key: PageStorageKey('soon'), //future release movies
+                key: PageStorageKey('soon'),
                 title: 'Comming Soon ...',
                 contentList: trending,
               ),

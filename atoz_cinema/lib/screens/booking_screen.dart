@@ -6,18 +6,21 @@ import 'package:atoz_cinema/screens/paying_screen.dart';
 import 'package:atoz_cinema/widgets/cast_container.dart';
 import 'package:atoz_cinema/widgets/comment_container.dart';
 
-class BookingScreen extends StatelessWidget {
-  final String image_location;
-  final String image_caption;
-  final int mode;
+class BookingScreen extends StatefulWidget {
+  final String? image_location;
+  final String? image_caption;
 
   const BookingScreen({
     super.key,
     required this.image_location,
     required this.image_caption,
-    required this.mode,
   });
 
+  @override
+  State<BookingScreen> createState() => _BookingScreenState();
+}
+
+class _BookingScreenState extends State<BookingScreen> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -32,7 +35,7 @@ class BookingScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(image_location),
+                      image: AssetImage(widget.image_location!),
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -64,7 +67,7 @@ class BookingScreen extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                image_caption,
+                                widget.image_caption!,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 35,
@@ -307,34 +310,32 @@ class BookingScreen extends StatelessWidget {
             child: SizedBox(
               height: 55,
               width: 330,
-              child: mode == 1
-                  ? ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PayingScreen(
-                              movieName: 'Salar',
-                            ),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PayingScreen(
+                        movieName: 'Salar',
                       ),
-                      child: const Text(
-                        "Book  Now",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 25,
-                        ),
-                      ),
-                    )
-                  : null,
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                child: const Text(
+                  "Book  Now",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 25,
+                  ),
+                ),
+              ),
             ),
           ),
         ),
