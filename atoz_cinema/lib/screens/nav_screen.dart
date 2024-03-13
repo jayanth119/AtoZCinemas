@@ -1,6 +1,8 @@
+// import 'package:atoz_cinema/screens/editprofile.dart';
 import 'package:atoz_cinema/screens/loginscreen.dart';
 import 'package:atoz_cinema/screens/profile_screen.dart';
-import 'package:atoz_cinema/screens/splash_screen.dart';
+import 'package:atoz_cinema/screens/wishlist.dart';
+// import 'package:atoz_cinema/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:atoz_cinema/cubits/cubits.dart';
@@ -19,7 +21,7 @@ class _NavScreenState extends State<NavScreen> {
     const HomeScreen(key: PageStorageKey('homeScreen')),
     const Login(),
     const NewsScreem(),
-    const SplashScreen(),
+    const BookMarkPage(),
     const ProfileScreen(),
   ];
 
