@@ -145,6 +145,107 @@ class BookingMovies:
 
         return result
 
-# Example usage
-booking = BookingMovies()
-booking.BookingResponse()
+class TopMovies:
+    def TopMovieResponse(self):
+        url = "https://www.imdb.com/list/ls522436510/"
+        res = requests.get(url, headers=headers)
+        res.raise_for_status()
+        html = res.text
+        soup = bs4.BeautifulSoup(html, "html.parser")    
+
+        # Find all img tags
+        elements = soup.find_all("img" , class_ = "loadlate")       
+        # Find all anchor tags with class 'title'      
+        # Create a set to keep track of encountered titles
+        titles_set = set()
+        movies_list = []
+        c = 0 
+        # Loop through each element and extract src and title attributes
+        for element in elements:
+            if c == 3:  # Limiting to 3 movies for demonstration purposes
+                break 
+
+            src = element.get('loadlate')
+            title = element.get('alt')
+            href = element.get('data-tconst')
+            # Check if src, title, and href are not None
+            if src and title and href:
+                # Check if title is not already present in the set
+                if title not in titles_set:
+                    # Create a dictionary for movie information
+                    movie_dict = {
+                        "Title": title,
+                        "Image": src,
+                        "IMDb_link": f"https://www.imdb.com/title/{href}"
+                    }
+                    
+                    # Fetch movie details
+                    model = BookingMovies()
+                    other = model.moviedetail(f"https://www.imdb.com/title/{href}")
+                    movie_dict.update({
+                        "Rating": other[0],
+                        "Cast": other[1],
+                        "Description": other[2],
+                        "Genres": other[3],
+                        "Director": other[4],
+                        "Release": other[5]
+                    })
+
+                    # Fetch reviews
+                    reviews = model.reviews(f"https://www.imdb.com/title/{href}/reviews")
+                    # Add reviews to the movie dictionary
+                    movie_dict.update({
+                        "Reviews": reviews
+                    })
+
+                    #Append the movie dictionary to the list
+                    movies_list.append(movie_dict)
+                    # Add the title to the set
+                    titles_set.add(title)
+                    c += 1 
+
+        # Convert the list of dictionaries to a JSON string
+        json_response = json.dumps(movies_list, indent=4)
+        return json_response 
+    def CommingSoon(self):
+        url = "https://www.imdb.com/calendar/?region=IN"
+        res = requests.get(url, headers=headers)
+        res.raise_for_status()
+        html = res.text
+        soup = bs4.BeautifulSoup(html, "html.parser")    
+
+        # Find all img tags
+        elements = soup.find_all("img" , class_ = "ipc-image")       
+        # Find all anchor tags with class 'title'      
+        # Create a set to keep track of encountered titles
+        titles_set = set()
+        movies_list = []
+        c = 0 
+        # Loop through each element and extract src and title attributes
+        for element in elements:
+            if c == 3:  # Limiting to 3 movies for demonstration purposes
+                break 
+
+            src = element.get('src')
+            title = element.get('alt')
+            # Check if src, title, and href are not None
+            if src and title :
+                # Check if title is not already present in the set
+                if title not in titles_set:
+                    # Create a dictionary for movie information
+                    movie_dict = {
+                        "Title": title,
+                        "Image": src,
+                    }
+                    
+
+                    #Append the movie dictionary to the list
+                    movies_list.append(movie_dict)
+                    # Add the title to the set
+                    titles_set.add(title)
+                    c += 1 
+
+        # Convert the list of dictionaries to a JSON string
+        json_response = json.dumps(movies_list, indent=4)
+        return json_response
+
