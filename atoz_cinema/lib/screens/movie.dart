@@ -35,6 +35,7 @@ class MovieScreen extends StatelessWidget {
                       builder: (context) => const BookingScreen(
                         image_location: 'assets/images/stranger_things.jpg',
                         image_caption: 'stranger_things',
+                        mode: 1,
                       ),
                     ),
                   );

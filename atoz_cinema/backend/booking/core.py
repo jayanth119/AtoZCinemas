@@ -12,68 +12,70 @@ class BookingMovies:
         res = requests.get(url, headers=headers)
         res.raise_for_status()
         html = res.text
-        soup = bs4.BeautifulSoup(html, "html.parser")    
+        soup = bs4.BeautifulSoup(html, "html.parser")
 
-        # Find all img tags
-        elements = soup.find_all("img")       
-        # Find all anchor tags with class 'title'
-        anchor_tags = soup.find_all('a')        
+        # Find all div tags with class 'image_sm'
+        anc = soup.find_all("div", class_="image_sm")
+        movies_list = []
+        c = 0
         # Create a set to keep track of encountered titles
         titles_set = set()
-        movies_list = []
-        c = 0 
-        # Loop through each element and extract src and title attributes
-        for element, anchor in zip(elements, anchor_tags):
+        # Loop through each div and extract img and anchor tags
+        for div in anc:
             if c == 3:  # Limiting to 3 movies for demonstration purposes
-                break 
+                break
 
-            src = element.get('src')
-            title = element.get('title')
-            href = anchor.get('href')
+            # Find img tag within the div
+            img = div.find("img")
+            if img:
+                src = img.get('src')
+                title = img.get('title')
+                # Find anchor tag within the div
+                anchor = div.find('a')
+                if anchor:
+                    href = anchor.get('href')
+                    # Check if src, title, and href are not None
+                    if src and title and href:
+                        # Check if title is not already present in the set
+                        if title not in titles_set and href.startswith("/showtimes/title/"):
+                            href = href[10:]  # Removing "/showtimes/title/" part from the href
+                            # Create a dictionary for movie information
+                            if "?" in href:
+                                i = href.index("?")
+                                href = href[:i]
+                            movie_dict = {
+                                "Title": title,
+                                "Image": src,
+                                "IMDb_link": href
+                            }
 
-            # Check if src, title, and href are not None
-            if src and title and href:
-                # Check if title is not already present in the set
-                if title not in titles_set and href.startswith("/showtimes/title/"):
-                    href = href[10:]  # Removing "/showtimes/title/" part from the href
-                    # Create a dictionary for movie information
-                    if("?" in href):
-                        i = href.index("?")
-                        href = href[0:i]
-                    movie_dict = {
-                        "Title": title,
-                        "Image": src,
-                        "IMDb_link": href
-                    }
-                    
-                    # Fetch movie details
-                    other = self.moviedetail("https://www.imdb.com" + href)
-                    movie_dict.update({
-                        "Rating": other[0],
-                        "Cast": other[1],
-                        "Description": other[2],
-                        "Genres": other[3],
-                        "Director": other[4],
-                        "Release": other[5]
-                    })
+                            # Fetch movie details
+                            other = self.moviedetail("https://www.imdb.com" + href)
+                            movie_dict.update({
+                                "Rating": other[0],
+                                "Cast": other[1],
+                                "Description": other[2],
+                                "Genres": other[3],
+                                "Director": other[4],
+                                "Release": other[5]
+                            })
 
-                    # Fetch reviews
-                    reviews = self.reviews("https://www.imdb.com" + href + "/reviews")
-                    # Add reviews to the movie dictionary
-                    movie_dict.update({
-                        "Reviews": reviews
-                    })
+                            # Fetch reviews
+                            reviews = self.reviews("https://www.imdb.com" + href + "/reviews")
+                            # Add reviews to the movie dictionary
+                            movie_dict.update({
+                                "Reviews": reviews
+                            })
 
-                    # Append the movie dictionary to the list
-                    movies_list.append(movie_dict)
-                    # Add the title to the set
-                    titles_set.add(title)
-                    c += 1 
+                            # Append the movie dictionary to the list
+                            movies_list.append(movie_dict)
+                            # Add the title to the set
+                            titles_set.add(title)
+                            c += 1
 
         # Convert the list of dictionaries to a JSON string
-        json_response = json.dumps(movies_list, indent=4)
-        print(json_response)
-        return json_response 
+
+        return movies_list
 
     def moviedetail(self, id):
         res = requests.get(url=id, headers=headers)
@@ -135,8 +137,8 @@ class BookingMovies:
 
         result = []
 
-        # Verify lengths are consistent and create result dictionary
-        for i in range(min(len(userratings), len(reviewers), len(usersers))):
+        # Verify lengths are consistent and create result dictionary min(len(userratings), len(reviewers), len(usersers))
+        for i in range(6):
             result.append({
                 "name": usersers[i],
                 "review": reviewers[i],
@@ -145,7 +147,7 @@ class BookingMovies:
 
         return result
 
-class TopMovies:
+class TopMovie:
     def TopMovieResponse(self):
         url = "https://www.imdb.com/list/ls522436510/"
         res = requests.get(url, headers=headers)
@@ -203,10 +205,8 @@ class TopMovies:
                     # Add the title to the set
                     titles_set.add(title)
                     c += 1 
-
-        # Convert the list of dictionaries to a JSON string
-        json_response = json.dumps(movies_list, indent=4)
-        return json_response 
+      
+        return movies_list
     def CommingSoon(self):
         url = "https://www.imdb.com/calendar/?region=IN"
         res = requests.get(url, headers=headers)
@@ -215,37 +215,52 @@ class TopMovies:
         soup = bs4.BeautifulSoup(html, "html.parser")    
 
         # Find all img tags
-        elements = soup.find_all("img" , class_ = "ipc-image")       
+        elements = soup.find_all("img" , class_ = "ipc-image") 
+        anchors = soup.find_all("a" , class_="ipc-metadata-list-summary-item__t")
         # Find all anchor tags with class 'title'      
         # Create a set to keep track of encountered titles
         titles_set = set()
-        movies_list = []
         c = 0 
+        movies_list = []
         # Loop through each element and extract src and title attributes
-        for element in elements:
+        for element , anchor in zip(elements, anchors):
             if c == 3:  # Limiting to 3 movies for demonstration purposes
                 break 
 
             src = element.get('src')
-            title = element.get('alt')
+            title = anchor.text 
+            href  = anchor.get("href")
+            if("?" in href):
+                i = href.index("?")
+                href = href[0:i]
             # Check if src, title, and href are not None
-            if src and title :
+            if src and title  and href :
                 # Check if title is not already present in the set
+                
                 if title not in titles_set:
                     # Create a dictionary for movie information
                     movie_dict = {
                         "Title": title,
                         "Image": src,
+                        "IMDb_link": f"https://www.imdb.com{href}"
                     }
-                    
-
-                    #Append the movie dictionary to the list
+                        # Fetch movie details
+                    model = BookingMovies()
+                    other = model.moviedetail(f"https://www.imdb.com{href}")
+                    movie_dict.update({
+                        "Rating": other[0],
+                        "Cast": other[1],
+                        "Description": other[2],
+                        "Genres": other[3],
+                        "Director": other[4],
+                        "Release": other[5]
+                    })
                     movies_list.append(movie_dict)
                     # Add the title to the set
                     titles_set.add(title)
                     c += 1 
 
         # Convert the list of dictionaries to a JSON string
-        json_response = json.dumps(movies_list, indent=4)
-        return json_response
+        movies_list
 
+        return movies_list
