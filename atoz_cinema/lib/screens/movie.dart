@@ -1,3 +1,4 @@
+import 'package:atoz_cinema/models/cinema.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:atoz_cinema/cubits/app_bar/app_bar_cubit.dart';
@@ -7,7 +8,9 @@ import 'package:atoz_cinema/screens/booking_screen.dart';
 // Correct import statement
 
 class MovieScreen extends StatelessWidget {
-  const MovieScreen({Key? key}) : super(key: key); // Fix key parameter
+  final Model mongo;
+  const MovieScreen({Key? key, required this.mongo})
+      : super(key: key); // Fix key parameter
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +35,11 @@ class MovieScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const BookingScreen(
-                        image_location: 'assets/images/stranger_things.jpg',
-                        image_caption: 'stranger_things',
+                      builder: (context) => BookingScreen(
                         mode: 1,
+                        mongo: mongo,
+                        image_caption: '',
+                        image_location: '',
                       ),
                     ),
                   );

@@ -1,3 +1,4 @@
+import 'package:atoz_cinema/models/cinema.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:atoz_cinema/screens/paying_screen.dart';
@@ -5,15 +6,15 @@ import 'package:atoz_cinema/widgets/cast_container.dart';
 import 'package:atoz_cinema/widgets/comment_container.dart';
 
 class BookingScreen extends StatelessWidget {
-  final String image_location;
-  final String image_caption;
+  final Model mongo;
   final int mode;
 
   const BookingScreen({
     super.key,
-    required this.image_location,
-    required this.image_caption,
     required this.mode,
+    required this.mongo,
+    required String image_caption,
+    required String image_location,
   });
 
   @override
@@ -30,7 +31,7 @@ class BookingScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(image_location),
+                      image: NetworkImage(mongo.image),
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -62,7 +63,7 @@ class BookingScreen extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                image_caption,
+                                mongo.title,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 35,
@@ -70,9 +71,9 @@ class BookingScreen extends StatelessWidget {
                                 ),
                               ),
                               const Spacer(),
-                              const Text(
-                                "8.2",
-                                style: TextStyle(
+                              Text(
+                                mongo.rating,
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -86,9 +87,9 @@ class BookingScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 5),
-                          const Text(
-                            "2021, Denis Villeneuve",
-                            style: TextStyle(
+                          Text(
+                            mongo.release + mongo.director,
+                            style: const TextStyle(
                               color: Colors.white70,
                               fontSize: 16,
                             ),
@@ -96,62 +97,31 @@ class BookingScreen extends StatelessWidget {
                           const SizedBox(height: 10),
 
                           ///==================== 3 buttons in container ================
-                          Row(
-                            children: [
-                              Container(
-                                height: 35,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    "Epis",
-                                    style: TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: 15,
+                          ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: mongo.genres.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Container(
+                                  height: 35,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      mongo.genres[index],
+                                      style: const TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 15,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              Container(
-                                height: 35,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    "Fantasy",
-                                    style: TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Container(
-                                height: 35,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    "Drama",
-                                    style: TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                              );
+                            },
                           ),
 
                           ///=========== PARAGRAPH CODE ======================
@@ -159,8 +129,7 @@ class BookingScreen extends StatelessWidget {
                           RichText(
                             maxLines: 3,
                             text: TextSpan(
-                              text:
-                                  "Paul Atreides. a brilliant and gifted young man born into a great destiny beyond understanding, must travel to the most dangerous plane....",
+                              text: mongo.description,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 15,
@@ -200,7 +169,9 @@ class BookingScreen extends StatelessWidget {
                     const SizedBox(height: 20),
 
                     ///================== CAST CONTAINER CALL ===============
-                    CastContainer(),
+                    CastContainer(
+                      cast: mongo.cast,
+                    ),
                     const SizedBox(height: 20),
 
                     ///===================== video =================
@@ -265,7 +236,9 @@ class BookingScreen extends StatelessWidget {
                     const SizedBox(height: 20),
 
                     ///=================================================
-                    const CommentContainer(),
+                    CommentContainer(
+                      comments: mongo.reviews,
+                    ),
                     const SizedBox(height: 80),
 
                     ///======================= elevated button ==================================
@@ -312,7 +285,7 @@ class BookingScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => PayingScreen(
-                              movieName: 'Salar',
+                              movieName: mongo.title,
                             ),
                           ),
                         );

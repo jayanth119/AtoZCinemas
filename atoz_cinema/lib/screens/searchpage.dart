@@ -1,10 +1,10 @@
-import 'package:atoz_cinema/screens/booking_screen.dart';
+// import 'package:atoz_cinema/screens/booking_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:atoz_cinema/models/searchmodel.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+  const SearchPage({super.key});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -96,17 +96,17 @@ class _SearchPageState extends State<SearchPage> {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () => {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const BookingScreen(
-                                    image_location:
-                                        'assets/images/stranger_things.jpg',
-                                    image_caption: 'stranger_things',
-                                    mode: 0,
-                                  ),
-                                ),
-                              )
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => const BookingScreen(
+                              //       image_location:
+                              //           'assets/images/stranger_things.jpg',
+                              //       image_caption: 'stranger_things',
+                              //       mode: 0, mongo: null,
+                              //     ),
+                              //   ),
+                              // )
                             },
                             child: ListTile(
                               contentPadding: const EdgeInsets.all(8.0),

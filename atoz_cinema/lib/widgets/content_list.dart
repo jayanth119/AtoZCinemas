@@ -1,20 +1,20 @@
 // import 'package:movie/screens/booking_screen.dart';
+import 'package:atoz_cinema/models/cinema.dart';
 import 'package:flutter/material.dart';
 
-import 'package:atoz_cinema/models/models.dart';
 import 'package:atoz_cinema/screens/booking_screen.dart';
-import 'package:atoz_cinema/screens/movie.dart';
+// import 'package:atoz_cinema/screens/movie.dart';
 
 class ContentList extends StatelessWidget {
   final String title;
-  final List<Content> contentList;
+  final List<Model> mongo;
   final bool isOriginals;
 
   const ContentList({
     required Key key,
     required this.title,
-    required this.contentList,
     this.isOriginals = false,
+    required this.mongo,
   }) : super(key: key);
 
   @override
@@ -40,12 +40,14 @@ class ContentList extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MovieScreen(),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) =>  MovieScreen(
+                    //       mongo: null,
+                    //     ),
+                    //   ),
+                    // );
                   },
                   child: const Text(
                     "See All > ",
@@ -66,18 +68,19 @@ class ContentList extends StatelessWidget {
                 horizontal: 16.0,
               ),
               scrollDirection: Axis.horizontal,
-              itemCount: contentList.length,
+              itemCount: mongo.length,
               itemBuilder: (BuildContext context, int index) {
-                final Content content = contentList[index];
+                final String con = mongo[index].image;
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const BookingScreen(
-                          image_location: 'assets/images/stranger_things.jpg',
-                          image_caption: 'stranger_things',
+                        builder: (context) => BookingScreen(
                           mode: 0,
+                          mongo: mongo[index],
+                          image_caption: '',
+                          image_location: '',
                         ),
                       ),
                     );
@@ -88,7 +91,7 @@ class ContentList extends StatelessWidget {
                     width: isOriginals ? 200.0 : 130.0,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(content.imageUrl),
+                        image: NetworkImage(con),
                         fit: BoxFit.cover,
                       ),
                     ),

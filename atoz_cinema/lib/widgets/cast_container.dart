@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CastContainer extends StatelessWidget {
+  final Map<String, String> cast;
+
+  const CastContainer({super.key, required this.cast});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -8,32 +11,15 @@ class CastContainer extends StatelessWidget {
       height: 145,
       child: ListView(
         scrollDirection: Axis.horizontal,
-        children: [
-          Category(
-            image_location: "assets/images/stranger_things.jpg",
-            image_caption: 'Timothée Chalamet',
-          ),
-          const SizedBox(width: 8),
-          Category(
-            image_location: 'assets/images/stranger_things.jpg',
-            image_caption: 'Zendaya',
-          ),
-          const SizedBox(width: 8),
-          Category(
-            image_location: 'assets/images/stranger_things.jpg',
-            image_caption: 'Rebecca Ferguson',
-          ),
-          const SizedBox(width: 8),
-          Category(
-            image_location: 'assets/images/stranger_things.jpg',
-            image_caption: 'Oscar Isaac',
-          ),
-          const SizedBox(width: 8),
-          Category(
-            image_location: 'assets/images/stranger_things.jpg',
-            image_caption: 'Jason Momoa',
-          ),
-        ],
+        children: cast.entries.map((e) {
+          return Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Category(
+              image_location: e.value,
+              image_caption: e.key,
+            ),
+          );
+        }).toList(),
       ),
     );
   }

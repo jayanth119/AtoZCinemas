@@ -1,8 +1,6 @@
-// import 'package:atoz_cinema/screens/editprofile.dart';
-import 'package:atoz_cinema/screens/loginscreen.dart';
 import 'package:atoz_cinema/screens/profile_screen.dart';
+import 'package:atoz_cinema/screens/searchpage.dart';
 import 'package:atoz_cinema/screens/wishlist.dart';
-// import 'package:atoz_cinema/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:atoz_cinema/cubits/cubits.dart';
@@ -19,7 +17,7 @@ class NavScreen extends StatefulWidget {
 class _NavScreenState extends State<NavScreen> {
   final List<Widget> _screens = [
     const HomeScreen(key: PageStorageKey('homeScreen')),
-    const Login(),
+    const SearchPage(),
     const NewsScreem(),
     const BookMarkPage(),
     const ProfileScreen(),
