@@ -3,26 +3,20 @@ from .core import Top250
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
 import json
-from .models import Movies250 , Tvshows250  
+# from .models import Movies250 , Tvshows250  
 
 @api_view(["GET"]) 
 def top250movies(request):
     if request.method == "GET":
-        model = Top250()
-        print("server start")
-        result = model.TvShowsMovies("https://www.imdb.com/chart/top/") 
-        print("server end ")
-        return Response(result)
+
+        return Response()  # Return the booking data as JSON response
 @api_view(["GET"]) 
 def top250tvshows(request):
     if request.method == "GET":
-        model = Top250()
-        print("server start")
-        result = model.TvShowsMovies("https://www.imdb.com/chart/toptv/") 
-        print("server end ")
-        return Response(result)
+
+        return Response()  # Return the booking data as JSON response
 
 
 

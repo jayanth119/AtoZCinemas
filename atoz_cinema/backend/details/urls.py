@@ -16,7 +16,7 @@ Including another URLconf
 """
 
 from django.urls import path 
-from .views import top250movies , top250tvshows , save 
+from .views import top250movies , top250tvshows 
 urlpatterns = [
    
     path('250movies/', top250movies , name="250movies" ), 

@@ -24,8 +24,8 @@ class Flow {
           await getBook(Uri.parse('http://192.168.45.101/book'));
 
       final topMoviesData =
-          await getBook(Uri.parse('http://192.168.45.101/top'));
-      final laterData = await getBook(Uri.parse('http://192.168.45.101/soon'));
+          await getBook(Uri.parse('http://192.168.45.101/book'));
+      final laterData = await getBook(Uri.parse('http://192.168.45.101/book'));
 
       booking = [bookingData];
 
