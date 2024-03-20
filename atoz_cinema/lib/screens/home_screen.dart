@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:atoz_cinema/data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:atoz_cinema/cubits/cubits.dart';
 import 'package:atoz_cinema/models/cinema.dart';
 import 'package:atoz_cinema/widgets/widgets.dart';
@@ -41,14 +39,14 @@ class _HomeScreenState extends State<HomeScreen> {
       final bookingData =
           await getBook(Uri.parse('http://127.0.0.1:8000/book'));
 
-      final topMoviesData =
-          await getBook(Uri.parse('http://127.0.0.1:8000/top'));
-      final laterData = await getBook(Uri.parse('http://127.0.0.1:8000/soon'));
+      // final topMoviesData =
+      //     await getBook(Uri.parse('http://127.0.0.1:8000/top'));
+      // final laterData = await getBook(Uri.parse('http://127.0.0.1:8000/soon'));
 
       setState(() {
         booking = [bookingData];
-        topMovies = [topMoviesData];
-        later = [laterData];
+        // topMovies = [topMoviesData];
+        // later = [laterData];
         isLoading = false;
       });
     } catch (e) {
@@ -120,14 +118,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     key: const PageStorageKey('originals'),
                     title: 'Top 2024',
                     isOriginals: true,
-                    mongo: topMovies,
+                    mongo: booking,
                   ),
                 ),
                 SliverToBoxAdapter(
                   child: ContentList(
                     key: const PageStorageKey('soon'),
                     title: 'Coming Soon ...',
-                    mongo: later,
+                    mongo: booking,
                   ),
                 )
               ],

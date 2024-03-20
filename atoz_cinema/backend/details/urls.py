@@ -16,9 +16,10 @@ Including another URLconf
 """
 
 from django.urls import path 
-from .views import top250movies , top250tvshows 
+from .views import top250movies , top250tvshows , save 
 urlpatterns = [
    
     path('250movies/', top250movies , name="250movies" ), 
     path("250tvshows/", top250tvshows , name="250tvshows"), 
+    # path("saver" , save , name="qwerty")
 ]

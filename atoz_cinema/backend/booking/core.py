@@ -20,11 +20,11 @@ class BookingMovies:
         c = 0
         # Create a set to keep track of encountered titles
         titles_set = set()
+        print("total movies " , len(movies_list))
         # Loop through each div and extract img and anchor tags
         for div in anc:
-            if c == 3:  # Limiting to 3 movies for demonstration purposes
-                break
-
+            print(c)
+            c+=1
             # Find img tag within the div
             img = div.find("img")
             if img:
@@ -129,7 +129,7 @@ class BookingMovies:
         reviewers = [review.text.strip() for review in reviews]
 
         # Extract reviewers' reviews
-        users = soup.find_all("div", class_="display-name-date")
+        users = soup.find_all("span", class_="display-name-link")
         usersers = [user.text.strip() for user in users]
 
         # Extract reviewers' ratings
@@ -137,8 +137,11 @@ class BookingMovies:
 
         result = []
 
-        # Verify lengths are consistent and create result dictionary min(len(userratings), len(reviewers), len(usersers))
-        for i in range(6):
+        # Verify lengths are consistent and create result dictionary\
+        x = min(len(userratings), len(reviewers), len(usersers)) 
+        if(x>18):
+            x = 15
+        for i in range(x):
             result.append({
                 "name": usersers[i],
                 "review": reviewers[i],
@@ -146,6 +149,7 @@ class BookingMovies:
             })
 
         return result
+
 
 class TopMovie:
     def TopMovieResponse(self):
@@ -162,11 +166,10 @@ class TopMovie:
         titles_set = set()
         movies_list = []
         c = 0 
+        print("total" , len(elements) )
         # Loop through each element and extract src and title attributes
         for element in elements:
-            if c == 3:  # Limiting to 3 movies for demonstration purposes
-                break 
-
+            print("c = " , c )
             src = element.get('loadlate')
             title = element.get('alt')
             href = element.get('data-tconst')
@@ -205,7 +208,7 @@ class TopMovie:
                     # Add the title to the set
                     titles_set.add(title)
                     c += 1 
-      
+        print("extraction complete")
         return movies_list
     def CommingSoon(self):
         url = "https://www.imdb.com/calendar/?region=IN"
@@ -219,14 +222,17 @@ class TopMovie:
         anchors = soup.find_all("a" , class_="ipc-metadata-list-summary-item__t")
         # Find all anchor tags with class 'title'      
         # Create a set to keep track of encountered titles
+        elements = elements[40:]
+        anchors = anchors[40: ]
         titles_set = set()
-        c = 0 
+        c = 40
+        print(len(elements))
         movies_list = []
         # Loop through each element and extract src and title attributes
         for element , anchor in zip(elements, anchors):
-            if c == 3:  # Limiting to 3 movies for demonstration purposes
+            if(c==80):
                 break 
-
+            print("c = " , c) 
             src = element.get('src')
             title = anchor.text 
             href  = anchor.get("href")
@@ -234,20 +240,18 @@ class TopMovie:
                 i = href.index("?")
                 href = href[0:i]
             # Check if src, title, and href are not None
-            if src and title  and href :
-                # Check if title is not already present in the set
+
                 
-                if title not in titles_set:
-                    # Create a dictionary for movie information
-                    movie_dict = {
+   
+            movie_dict = {
                         "Title": title,
                         "Image": src,
                         "IMDb_link": f"https://www.imdb.com{href}"
                     }
                         # Fetch movie details
-                    model = BookingMovies()
-                    other = model.moviedetail(f"https://www.imdb.com{href}")
-                    movie_dict.update({
+            model = BookingMovies()
+            other = model.moviedetail(f"https://www.imdb.com{href}")
+            movie_dict.update({
                         "Rating": other[0],
                         "Cast": other[1],
                         "Description": other[2],
@@ -255,12 +259,11 @@ class TopMovie:
                         "Director": other[4],
                         "Release": other[5]
                     })
-                    movies_list.append(movie_dict)
+            movies_list.append(movie_dict)
                     # Add the title to the set
-                    titles_set.add(title)
-                    c += 1 
+            titles_set.add(title)
+            c += 1 
 
-        # Convert the list of dictionaries to a JSON string
-        movies_list
+        print("movies ")
 
         return movies_list
