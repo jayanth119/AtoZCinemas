@@ -1,7 +1,8 @@
+import 'package:atoz_cinema/models/cinema.dart';
 import 'package:flutter/material.dart';
 
 class CommentContainer extends StatelessWidget {
-  final List<Map<String, String>> comments;
+  final List<Reviews>? comments;
 
   const CommentContainer({Key? key, required this.comments}) : super(key: key);
 
@@ -11,16 +12,16 @@ class CommentContainer extends StatelessWidget {
       height: 128,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: comments.length,
+        itemCount: comments?.length,
         itemBuilder: (BuildContext context, int index) {
-          final comment = comments[index];
+          final comment = comments?[index];
           return Padding(
             padding: const EdgeInsets.only(right: 10.0),
             child: Category(
-              name: comment['name'] ?? '',
-              comments: comment['review'] ?? '',
+              name: comment?.name ?? '',
+              comments: comment?.review ?? '',
               date: '',
-              rate: comment["rating"] ?? '',
+              rate: comment?.rating ?? '',
             ),
           );
         },

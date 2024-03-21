@@ -31,7 +31,8 @@ class BookingScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage(mongo.image),
+                      image: NetworkImage(mongo.imageUrl ??
+                          "https://m.media-amazon.com/images/M/MV5BMTQwZjRiMjUtYmU0OS00Y2EwLWJhZTctOWI1ZGU2NWExM2FkXkEyXkFqcGdeQXVyMTY3ODkyNDkz._V1_UX67_CR0,0,67,98_AL_.jpg"),
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -63,7 +64,7 @@ class BookingScreen extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                mongo.title,
+                                mongo.title ?? "salar",
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 35,
@@ -72,7 +73,7 @@ class BookingScreen extends StatelessWidget {
                               ),
                               const Spacer(),
                               Text(
-                                mongo.rating,
+                                mongo.rating ?? "69",
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
@@ -88,7 +89,7 @@ class BookingScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            mongo.release + mongo.director,
+                            mongo.release ?? "N/a${mongo.director}",
                             style: const TextStyle(
                               color: Colors.white70,
                               fontSize: 16,
@@ -99,7 +100,7 @@ class BookingScreen extends StatelessWidget {
                           ///==================== 3 buttons in container ================
                           ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: mongo.genres.length,
+                            itemCount: mongo.genres?.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(
                                 padding: const EdgeInsets.only(right: 8.0),
@@ -112,7 +113,7 @@ class BookingScreen extends StatelessWidget {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      mongo.genres[index],
+                                      mongo.genres![index],
                                       style: const TextStyle(
                                         color: Colors.white70,
                                         fontSize: 15,
@@ -285,7 +286,7 @@ class BookingScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => PayingScreen(
-                              movieName: mongo.title,
+                              movieName: mongo.title ?? "N/a",
                             ),
                           ),
                         );

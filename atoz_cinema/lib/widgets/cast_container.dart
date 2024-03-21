@@ -1,7 +1,8 @@
+import 'package:atoz_cinema/models/cinema.dart';
 import 'package:flutter/material.dart';
 
 class CastContainer extends StatelessWidget {
-  final Map<String, String> cast;
+  final List<Cast>? cast;
 
   const CastContainer({super.key, required this.cast});
   @override
@@ -11,12 +12,13 @@ class CastContainer extends StatelessWidget {
       height: 145,
       child: ListView(
         scrollDirection: Axis.horizontal,
-        children: cast.entries.map((e) {
+        children: cast!.map((e) {
           return Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: Category(
-              image_location: e.value,
-              image_caption: e.key,
+              image_location: e.name ?? "Name",
+              image_caption: e.imageUrl ??
+                  "https://m.media-amazon.com/images/M/MV5BYTU0Njc0OGEtM2IwYy00ODE2LWE4MTgtNDZkZjgzMzRhOWY2XkEyXkFqcGdeQXVyMjkxNzQ1NDI@._V1_QL75_UX140_CR0,11,140,140_.jpg",
             ),
           );
         }).toList(),

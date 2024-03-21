@@ -70,7 +70,8 @@ class ContentList extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: mongo.length,
               itemBuilder: (BuildContext context, int index) {
-                final String con = mongo[index].image;
+                final String con = mongo[index].imageUrl ??
+                    "https://m.media-amazon.com/images/M/MV5BN2QyZGU4ZDctOWMzMy00NTc5LThlOGQtODhmNDI1NmY5YzAwXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_UX67_CR0,0,67,98_AL_.jpg";
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(

@@ -41,7 +41,8 @@ dependencies:
   flutter_bloc: ^8.1.4
   flutter_screenutil:
   webview_flutter: ^3.0.1 
-  provider : 
+  provider :
+  dio: ^5.4.1 
 
 
 

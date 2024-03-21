@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:atoz_cinema/data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,36 +37,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> fetchData() async {
     try {
-      final bookingData =
-          await getBook(Uri.parse('http://127.0.0.1:8000/book'));
-
-      // final topMoviesData =
-      //     await getBook(Uri.parse('http://127.0.0.1:8000/top'));
-      // final laterData = await getBook(Uri.parse('http://127.0.0.1:8000/soon'));
-
+      final bookingData = await getBook('http://127.0.0.1:8000/book');
       setState(() {
         booking = [bookingData];
-        // topMovies = [topMoviesData];
-        // later = [laterData];
-        isLoading = false;
       });
+      // Process the booking data as needed...
     } catch (e) {
       print('Error fetching data: $e');
-      // ignore: use_build_context_synchronously
+      // Handle the error gracefully...
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Error'),
-          content: const Text('Failed to fetch data. Please try again later.'),
+          title: Text('Error'),
+          content: Text(
+              'Failed to fetch data. Please check your internet connection and try again.'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                setState(() {
-                  isLoading = false;
-                });
               },
-              child: const Text('OK'),
+              child: Text('OK'),
             ),
           ],
         ),
@@ -73,12 +64,17 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<Model> getBook(Uri url) async {
-    final response = await http.get(url);
-
-    final jsonData = jsonDecode(response.body);
-    print(jsonData);
-    return Model.fromJson(jsonData);
+  Future<Model> getBook(String url) async {
+    try {
+      final response =
+          await http.get(Uri.parse(url)); // Make GET request using http
+      final jsonData = json.decode(response.body); // Decode JSON response
+      print(jsonData);
+      return Model.fromJson(jsonData);
+    } catch (e) {
+      print('Http error: $e');
+      throw Exception('Failed to load data: $e');
+    }
   }
 
   @override
