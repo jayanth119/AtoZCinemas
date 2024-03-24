@@ -1,11 +1,9 @@
-// import 'package:movie/screens/booking_screen.dart';
 import 'package:atoz_cinema/models/cinema.dart';
 import 'package:flutter/material.dart';
-
 import 'package:atoz_cinema/screens/booking_screen.dart';
-// import 'package:atoz_cinema/screens/movie.dart';
 
 class ContentList extends StatelessWidget {
+  final int mode;
   final String title;
   final List<Model> mongo;
   final bool isOriginals;
@@ -15,11 +13,11 @@ class ContentList extends StatelessWidget {
     required this.title,
     this.isOriginals = false,
     required this.mongo,
+    required this.mode,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // Size screenSize = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Column(
@@ -39,16 +37,7 @@ class ContentList extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) =>  MovieScreen(
-                    //       mongo: null,
-                    //     ),
-                    //   ),
-                    // );
-                  },
+                  onPressed: () {}, // ... your See All button logic
                   child: const Text(
                     "See All > ",
                     style: TextStyle(
@@ -61,7 +50,7 @@ class ContentList extends StatelessWidget {
             ),
           ),
           Container(
-            height: isOriginals ? 500.0 : 220.0,
+            height: isOriginals ? 500.0 : 220.0, // Adjust height as needed
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(
                 vertical: 12.0,
@@ -78,7 +67,7 @@ class ContentList extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => BookingScreen(
-                          mode: 0,
+                          mode: mode,
                           mongo: mongo[index],
                           image_caption: '',
                           image_location: '',
@@ -88,7 +77,8 @@ class ContentList extends StatelessWidget {
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                    height: isOriginals ? 400.0 : 200.0,
+                    height:
+                        isOriginals ? 400.0 : 200.0, // Adjust height as needed
                     width: isOriginals ? 200.0 : 130.0,
                     decoration: BoxDecoration(
                       image: DecorationImage(

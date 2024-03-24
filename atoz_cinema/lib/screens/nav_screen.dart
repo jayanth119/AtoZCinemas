@@ -18,7 +18,7 @@ class _NavScreenState extends State<NavScreen> {
   final List<Widget> _screens = [
     const HomeScreen(key: PageStorageKey('homeScreen')),
     const SearchPage(),
-    const NewsScreem(),
+    const NewsScreen(),
     const BookMarkPage(),
     const ProfileScreen(),
   ];

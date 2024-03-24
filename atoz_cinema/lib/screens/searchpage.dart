@@ -29,7 +29,7 @@ class _SearchPageState extends State<SearchPage> {
     setState(() {
       filteredMoviesList = moviesList
           .where((element) =>
-              element.name!.toLowerCase().contains(val.toLowerCase()))
+              element.title!.toLowerCase().contains(val.toLowerCase()))
           .toList();
     });
   }
@@ -111,14 +111,14 @@ class _SearchPageState extends State<SearchPage> {
                             child: ListTile(
                               contentPadding: const EdgeInsets.all(8.0),
                               title: Text(
-                                filteredMoviesList[index].name!,
+                                filteredMoviesList[index].title!,
                                 style: const TextStyle(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               subtitle: Text(
-                                filteredMoviesList[index].year.toString(),
+                                filteredMoviesList[index].release.toString(),
                                 style: const TextStyle(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold,

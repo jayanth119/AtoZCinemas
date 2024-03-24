@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 class CastContainer extends StatelessWidget {
   final List<Cast>? cast;
 
-  const CastContainer({super.key, required this.cast});
+  const CastContainer({Key? key, required this.cast}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Colors.red,
       height: 145,
       child: ListView(
         scrollDirection: Axis.horizontal,
@@ -16,9 +16,8 @@ class CastContainer extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: Category(
-              image_location: e.name ?? "Name",
-              image_caption: e.imageUrl ??
-                  "https://m.media-amazon.com/images/M/MV5BYTU0Njc0OGEtM2IwYy00ODE2LWE4MTgtNDZkZjgzMzRhOWY2XkEyXkFqcGdeQXVyMjkxNzQ1NDI@._V1_QL75_UX140_CR0,11,140,140_.jpg",
+              image_location: e.imageUrl ?? "",
+              image_caption: e.name ?? "Name",
             ),
           );
         }).toList(),
@@ -31,10 +30,11 @@ class Category extends StatelessWidget {
   final String image_location;
   final String image_caption;
 
-  Category({
+  const Category({
+    Key? key,
     required this.image_location,
     required this.image_caption,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,6 @@ class Category extends StatelessWidget {
         padding: const EdgeInsets.only(left: 20),
         child: Container(
           width: 115,
-          // color: Colors.cyanAccent,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -53,19 +52,29 @@ class Category extends StatelessWidget {
                 width: 100,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
-                  // color: Colors.yellow,
-                  image: DecorationImage(
-                    image: AssetImage(image_location),
-                    fit: BoxFit.cover,
-                  ),
+                  image: image_location.isNotEmpty
+                      ? DecorationImage(
+                          image: NetworkImage(image_location),
+                          fit: BoxFit.cover,
+                        )
+                      : null,
                 ),
+                child: image_location.isEmpty
+                    ? Center(
+                        child: Icon(
+                          Icons.person,
+                          size: 50,
+                          color: Colors.white,
+                        ),
+                      )
+                    : null,
               ),
               const SizedBox(height: 2),
               SizedBox(
-                width: 70,
+                width: 100, // Adjusted width to fit the image
                 child: Text(
-                  textAlign: TextAlign.center,
                   image_caption,
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white54,
                     fontFamily: 'Tenor Sans',

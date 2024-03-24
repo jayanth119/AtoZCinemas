@@ -31,3 +31,8 @@ class CommingSoonSerializer(serializers.Serializer):
         fields = ['title', 'image_url', 'imdb_link', 'rating', 'description', 'director', 'release', 'genres', 'cast']
 
 
+
+class TotalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        fields = ['title', 'rating', 'release']

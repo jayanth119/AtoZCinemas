@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializer import BookingMovieSerializer, Top2024MovieSerializer, CommingSoonSerializer
+from .serializer import BookingMovieSerializer, Top2024MovieSerializer, CommingSoonSerializer , TotalSerializer 
 from .models import Movie, Top2024Movies, soom
 
 @api_view(["GET"])
@@ -22,6 +22,12 @@ def CommingLater(request):
     if request.method == "GET":
         soon = soom.objects.all()
         serializer = CommingSoonSerializer(soon, many=True)
+        return Response(serializer.data)
+@api_view(["GET"])
+def AllMovies(request):
+    if request.method == "GET":
+        mov = Movie.objects.all()
+        serializer = TotalSerializer(mov, many=True)
         return Response(serializer.data)
 
 # @csrf_exempt
