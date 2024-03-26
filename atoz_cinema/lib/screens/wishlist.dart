@@ -1,38 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class BookMarkPage extends StatefulWidget {
-  const BookMarkPage({super.key});
+import '../widgets/pay_button.dart';
 
-  @override
-  State<BookMarkPage> createState() => _BookMarkPageState();
-}
-
-class _BookMarkPageState extends State<BookMarkPage> {
+class BookMarkPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // final book = Provider.of<BookProvider>(context, listen: false);
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("BookMark Item"),
+      appBar: AppBar(
+        title: const Text(
+          "Booked Movies",
+          style: TextStyle(color: Colors.white),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: 69,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    onTap: () {},
-                    textColor: Colors.white,
-                    title: Text("Item $index"),
-                    trailing: const Icon(Icons.bookmark),
-                    iconColor: Colors.redAccent,
-                    hoverColor: Colors.deepPurpleAccent,
-                  );
-                },
-              ),
-            ),
-          ],
-        ));
+        backgroundColor: Colors.black,
+      ),
+      backgroundColor: Colors.black,
+      body: Consumer<BookedMoviesProvider>(
+        builder: (context, provider, _) => ListView.builder(
+          itemCount: provider.bookedMovies.length,
+          itemBuilder: (context, index) {
+            BookedMovie movie = provider.bookedMovies[index];
+            return ListTile(
+              onTap: () {},
+              title: Text('${movie.movieName} - ${movie.selectedDate}'),
+              subtitle: Text(
+                  'Time: ${movie.selectedTime} | Seats: ${movie.selectedSeats}'),
+              trailing: Text('\$${movie.amount}'),
+              tileColor: Colors.black,
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              dense: true,
+              textColor: Colors.white,
+            );
+          },
+        ),
+      ),
+    );
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CastContainer extends StatelessWidget {
   final List<Cast>? cast;
 
-  const CastContainer({Key? key, required this.cast}) : super(key: key);
+  const CastContainer({super.key, required this.cast});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class Category extends StatelessWidget {
                       : null,
                 ),
                 child: image_location.isEmpty
-                    ? Center(
+                    ? const Center(
                         child: Icon(
                           Icons.person,
                           size: 50,

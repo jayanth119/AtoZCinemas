@@ -108,20 +108,13 @@ class Flow extends ChangeNotifier {
 
   Future<void> fetchData() async {
     try {
-      _booking = await getBookList('http://10.0.2.2:8000/book');
+      _booking = await getBookList('http://192.168.1.102:8000/book');
+      _topMovies = _booking;
+      _later = _booking;
       isLoading = false;
       notifyListeners();
-
-      _topMovies = await getBookList(
-          'http://10.0.2.2:8000/book'); // Replace URL with the actual endpoint
-      notifyListeners();
-
-      _later = await getBookList(
-          'http://10.0.2.2:8000/book'); // Replace URL with the actual endpoint
-      notifyListeners();
-      _search = await getSearchList("http://10.0.2.2:8000/all");
     } catch (e) {
-      isLoading = false; // Update isLoading flag in case of error
+      isLoading = false;
       notifyListeners();
       if (kDebugMode) {
         print('Error fetching data: $e');
@@ -131,32 +124,19 @@ class Flow extends ChangeNotifier {
 
   Future<List<Model>> getBookList(String url) async {
     try {
-      final response = await http.get(Uri.parse(url));
+      Map<String, String> headers = {
+        "Content-type": 'application/json',
+        "Accept": 'application/json',
+        "Connection": "Keep-alive",
+      };
+
+      final response = await http.get(Uri.parse(url), headers: headers);
       final List<dynamic> jsonDataList = json.decode(response.body);
       if (kDebugMode) {
         print(jsonDataList);
       }
       final List<Model> models =
           jsonDataList.map((jsonData) => Model.fromJson(jsonData)).toList();
-      return models;
-    } catch (e) {
-      if (kDebugMode) {
-        print('Http error: $e');
-      }
-      throw Exception('Failed to load data: $e');
-    }
-  }
-
-  Future<List<SearchModel>> getSearchList(String url) async {
-    try {
-      final response = await http.get(Uri.parse(url));
-      final List<dynamic> jsonDataList = json.decode(response.body);
-      if (kDebugMode) {
-        print(jsonDataList);
-      }
-      final List<SearchModel> models = jsonDataList
-          .map((jsonData) => SearchModel.fromJson(jsonData))
-          .toList();
       return models;
     } catch (e) {
       if (kDebugMode) {

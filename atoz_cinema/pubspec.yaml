@@ -43,6 +43,8 @@ dependencies:
   webview_flutter: ^3.0.1 
   provider :
   dio: ^5.4.1 
+  fluttertoast :
+  razorpay_flutter : 
 
 
 

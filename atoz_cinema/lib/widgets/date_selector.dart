@@ -1,8 +1,10 @@
-// ignore_for_file: dead_code
-
 import 'package:flutter/material.dart';
 
 class DateSelector extends StatefulWidget {
+  final Function(String) onDateSelected;
+
+  const DateSelector({required this.onDateSelected});
+
   @override
   _DateSelectorState createState() => _DateSelectorState();
 }
@@ -15,25 +17,18 @@ class _DateSelectorState extends State<DateSelector> {
     switch (dayWeek) {
       case 1:
         return "MO";
-
       case 2:
         return "TU";
-
       case 3:
         return "WE";
-
       case 4:
         return "TH";
-
       case 5:
         return "FR";
-
       case 6:
         return "Sa";
-
       case 7:
         return "Su";
-
       default:
         return "MO";
     }
@@ -71,9 +66,10 @@ class _DateSelectorState extends State<DateSelector> {
                         setState(() {
                           dateIndexSelected = index;
                         });
+                        widget.onDateSelected(date.toString());
                       },
                       child: Container(
-                        padding: EdgeInsets.all(20.0 / 5),
+                        padding: const EdgeInsets.all(20.0 / 5),
                         margin: EdgeInsets.symmetric(
                           vertical: size.height * 0.02,
                           horizontal: 12,

@@ -8,6 +8,7 @@ class NewsScreen extends StatefulWidget {
   const NewsScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _NewsScreenState createState() => _NewsScreenState();
 }
 
@@ -38,7 +39,11 @@ class _NewsScreenState extends State<NewsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Entertainment News'),
+        title: const Text(
+          'Entertainment News',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black,
       ),
       body: ListView.builder(
         itemCount: articles.length,
@@ -67,9 +72,17 @@ class _NewsScreenState extends State<NewsScreen> {
                               height: 150,
                               width: 150,
                               fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Image.asset(
+                                  "assets/images/stranger_things.jpg",
+                                  height: 150,
+                                  width: 150,
+                                  fit: BoxFit.cover,
+                                );
+                              },
                             )
                           : Image.asset(
-                              "assets/images/placeholder_image.jpg",
+                              "assets/images/stranger_things.jpg",
                               height: 150,
                               width: 150,
                               fit: BoxFit.cover,

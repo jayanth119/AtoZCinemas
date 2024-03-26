@@ -16,6 +16,35 @@ class PayingScreen extends StatefulWidget {
 }
 
 class _PayingScreenState extends State<PayingScreen> {
+  String selectedDate = "";
+  String selectedTime = "";
+  List<String> selectedSeats = [];
+  int amount = 0;
+
+  void updateSelectedDate(String date) {
+    setState(() {
+      selectedDate = date;
+    });
+  }
+
+  void updateSelectedTime(String time) {
+    setState(() {
+      selectedTime = time;
+    });
+  }
+
+  void updateSelectedSeats(List<String> seats) {
+    setState(() {
+      selectedSeats = seats;
+    });
+  }
+
+  void updateAmount(int newAmount) {
+    setState(() {
+      amount = newAmount;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,23 +53,21 @@ class _PayingScreenState extends State<PayingScreen> {
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: Column(
           children: [
-            //app bar
-            CustomAppBar1("salar"),
-
-            //date selector
-            DateSelector(),
-
-            //Time selector
-            TimeSelector(),
-
-            //Location and theatre
+            CustomAppBar1(widget.movieName),
+            DateSelector(onDateSelected: updateSelectedDate),
+            TimeSelector(onTimeSelected: updateSelectedTime),
             LocationText(),
-
-            //Seat selector
-            SeatSelector(),
-
-            //Pay button and seat categories
-            PayButton(),
+            SeatSelector(
+              onSeatsSelected: updateSelectedSeats,
+              onAmountUpdated: updateAmount,
+            ),
+            PayButton(
+              movieName: widget.movieName,
+              selectedDate: selectedDate,
+              selectedTime: selectedTime,
+              selectedSeats: selectedSeats,
+              amount: amount,
+            ),
           ],
         ),
       ),

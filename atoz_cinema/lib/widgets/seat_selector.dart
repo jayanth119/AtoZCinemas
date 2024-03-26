@@ -1,7 +1,15 @@
-import 'package:flutter/material.dart';
 import 'package:atoz_cinema/widgets/build_chairs.dart';
+import 'package:flutter/material.dart';
 
 class SeatSelector extends StatefulWidget {
+  final Function(List<String>) onSeatsSelected;
+  final Function(int) onAmountUpdated;
+
+  const SeatSelector({
+    required this.onSeatsSelected,
+    required this.onAmountUpdated,
+  });
+
   @override
   _SeatSelectorState createState() => _SeatSelectorState();
 }
@@ -9,10 +17,6 @@ class SeatSelector extends StatefulWidget {
 class _SeatSelectorState extends State<SeatSelector> {
   Widget _chairList() {
     Size size = MediaQuery.of(context).size;
-
-    // 1 is free seats
-    // 2 is selected seats
-    // 3 is reserved seats
 
     var _chairStatus = [
       [1, 1, 1, 1, 1, 1, 1],
@@ -22,6 +26,8 @@ class _SeatSelectorState extends State<SeatSelector> {
       [1, 1, 1, 1, 1, 1, 1],
       [1, 1, 1, 1, 1, 1, 1],
     ];
+
+    List<String> selectedSeats = [];
 
     return Container(
       child: Column(
@@ -40,14 +46,27 @@ class _SeatSelectorState extends State<SeatSelector> {
                               (i == 0 && x == 7) ||
                               (x == 4)
                           ? Container()
-                          : Container(
-                              height: size.width / 11 - 10,
-                              margin: const EdgeInsets.all(5),
-                              child: _chairStatus[i][x - 1] == 1
-                                  ? BuildChairs.availableChair()
-                                  : _chairStatus[i][x - 1] == 2
-                                      ? BuildChairs.selectedChair()
-                                      : BuildChairs.reservedChair(),
+                          : GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (_chairStatus[i][x - 1] == 1) {
+                                    _chairStatus[i][x - 1] = 2;
+                                    selectedSeats.add('Seat ${i + 1}-${x}');
+                                  } else if (_chairStatus[i][x - 1] == 2) {
+                                    _chairStatus[i][x - 1] = 1;
+                                    selectedSeats.remove('Seat ${i + 1}-${x}');
+                                  }
+                                  widget.onAmountUpdated(
+                                      selectedSeats.length * 10);
+                                  widget.onSeatsSelected(selectedSeats);
+                                });
+                              },
+                              child: Container(
+                                height: size.width / 11 - 10,
+                                margin: const EdgeInsets.all(5),
+                                child:
+                                    BuildChairs.chair(_chairStatus[i][x - 1]),
+                              ),
                             ),
                     ),
                 ],

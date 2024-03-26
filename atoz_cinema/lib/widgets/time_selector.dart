@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TimeSelector extends StatefulWidget {
+  final Function(String) onTimeSelected;
+
+  const TimeSelector({required this.onTimeSelected});
+
   @override
   _TimeSelectorState createState() => _TimeSelectorState();
 }
@@ -13,6 +17,39 @@ class _TimeSelectorState extends State<TimeSelector> {
     ["06.30", 10],
     ["10.30", 15]
   ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 17,
+      child: Container(
+        margin: EdgeInsets.symmetric(
+            vertical: MediaQuery.of(context).size.height * 0.035),
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: time.length,
+          itemBuilder: (context, index) {
+            return Container(
+              margin: EdgeInsets.only(left: index == 0 ? 32 : 0),
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                  widget.onTimeSelected(time[index][0]);
+                },
+                child: _buildTimeItem(
+                  time[index][0],
+                  time[index][1],
+                  index == selectedIndex,
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
 
   Widget _buildTimeItem(String time, int price, bool active) {
     return Container(
@@ -58,39 +95,6 @@ class _TimeSelectorState extends State<TimeSelector> {
             ),
           )
         ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
-    return Expanded(
-      flex: 17,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: size.height * 0.035),
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: time.length,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: EdgeInsets.only(left: index == 0 ? 32 : 0),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedIndex = index;
-                  });
-                },
-                child: _buildTimeItem(
-                  time[index][0],
-                  time[index][1],
-                  index == selectedIndex,
-                ),
-              ),
-            );
-          },
-        ),
       ),
     );
   }

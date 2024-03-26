@@ -19,7 +19,7 @@ class _NavScreenState extends State<NavScreen> {
     const HomeScreen(key: PageStorageKey('homeScreen')),
     const SearchPage(),
     const NewsScreen(),
-    const BookMarkPage(),
+    BookMarkPage(),
     const ProfileScreen(),
   ];
 
