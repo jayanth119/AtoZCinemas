@@ -1,4 +1,5 @@
 import 'package:atoz_cinema/models/cinema.dart';
+import 'package:atoz_cinema/screens/movie.dart';
 import 'package:flutter/material.dart';
 import 'package:atoz_cinema/screens/booking_screen.dart';
 
@@ -37,7 +38,15 @@ class ContentList extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {}, // ... your See All button logic
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MovieScreen(
+                                mongo: mongo[0],
+                              )),
+                    );
+                  }, // ... your See All button logic
                   child: const Text(
                     "See All > ",
                     style: TextStyle(

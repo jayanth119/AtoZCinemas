@@ -83,19 +83,19 @@ class Flow extends ChangeNotifier {
   List<SearchModel> _search = [];
 
   List<Model> booking() {
-    return _booking;
+    return _booking.toList()..shuffle();
   }
 
   List<SearchModel> search() {
-    return _search;
+    return _search.toList()..shuffle();
   }
 
   List<Model> topMovies() {
-    return _topMovies;
+    return _topMovies.toList()..shuffle();
   }
 
   List<Model> later() {
-    return _later;
+    return _later.toList()..shuffle();
   }
 
   bool isloading() {

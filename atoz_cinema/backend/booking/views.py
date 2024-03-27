@@ -1,5 +1,8 @@
+from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
+from booking.core import BookingMovies, TopMovie
 from .serializer import BookingMovieSerializer, Top2024MovieSerializer, CommingSoonSerializer , TotalSerializer 
 from .models import Movie, Top2024Movies, soom
 
@@ -30,13 +33,12 @@ def AllMovies(request):
         serializer = TotalSerializer(mov, many=True)
         return Response(serializer.data)
 
-# @csrf_exempt
 # def save(request):
 #     if request.method == "GET":
 #         try:
 #             print("started")
-#             model = TopMovie()
-#             json_data_list = model.CommingSoon() 
+#             model = BookingMovies()
+#             json_data_list = model.BookingResponse() 
 #             print("data is got") # Assuming json_data_list is a list of JSON data entries
 #             if not json_data_list:
 #                 return JsonResponse({'status': 'error', 'message': 'No JSON data provided.'}, status=400)

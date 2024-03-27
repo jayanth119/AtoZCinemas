@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:atoz_cinema/donotshow.dart';
 
 class PayButton extends StatefulWidget {
   final String movieName;
@@ -45,8 +46,8 @@ class _PayButtonState extends State<PayButton> {
 
   void payment(int amount) {
     var options = {
-      'key': 'api', // Replace with your Razorpay key
-      'amount': amount,
+      'key': apikeypayment, // Replace with your Razorpay key
+      'amount': amount * 1000,
       'name': 'jayanth',
       'prefill': {
         'contact': '8179714811',
